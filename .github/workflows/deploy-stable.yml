@@ -131,38 +131,38 @@ jobs:
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
-    - name: Sign files with Azure Code Signing
-      uses: azure/azure-code-signing-action@v0.2.21
-      with:
-        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        endpoint: https://wus2.codesigning.azure.net/
-        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
-        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ env.APPX_PACKAGE_DIR }}
-        files-folder-filter: msixbundle
-        files-folder-recurse: true
-        files-folder-depth: 4
-        file-digest: SHA256
-        timestamp-rfc3161: http://timestamp.acs.microsoft.com
-        timestamp-digest: SHA256
+    # - name: Sign files with Azure Code Signing
+    #   uses: azure/azure-code-signing-action@v0.2.21
+    #   with:
+    #     azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #     azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #     azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+    #     endpoint: https://wus2.codesigning.azure.net/
+    #     code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+    #     certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+    #     files-folder: ${{ env.APPX_PACKAGE_DIR }}
+    #     files-folder-filter: msixbundle
+    #     files-folder-recurse: true
+    #     files-folder-depth: 4
+    #     file-digest: SHA256
+    #     timestamp-rfc3161: http://timestamp.acs.microsoft.com
+    #     timestamp-digest: SHA256
 
-    - uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - uses: azure/login@v1
+    #   with:
+    #       creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to blob storage
-      uses: azure/powershell@v1
-      with:
-        inlineScript: |
-         az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
-        azPSVersion: "latest"
+    # - name: Upload to blob storage
+    #   uses: azure/powershell@v1
+    #   with:
+    #     inlineScript: |
+    #      az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+    #     azPSVersion: "latest"
 
     # Azure logout
-    - name: logout
-      run: |
-          az logout
+    # - name: logout
+    #   run: |
+    #       az logout
           
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v3
