@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [Stable]
-        platform: [x64]
+        platform: [arm64]
     env:
       SOLUTION_NAME: 'Files.sln'
       PACKAGE_PROJECT_DIR: 'src\Files.App (Package)'
